@@ -25,7 +25,7 @@
           <td>{{ todo.completed ? '已執行' : '未執行' }}</td>
           <td>{{ todo.title }}</td>
           <td>{{ todo.content }}</td>
-          <td>回覆功能待实现</td>
+          <td>456</td>
           <td>
             <button @click="editTodo(todo.id)">編輯</button>
             <button @click="removeTodo(todo.id)">删除</button>
