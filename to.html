@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.snow.css" rel="stylesheet" />
+    <style>
+      .add {
+        width: 100%;
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .add-Todo {
+        border: none;
+        color: #fff;
+        background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
+        border-radius: 20px;
+        background-size: 100% auto;
+        font-family: inherit;
+        font-size: 17px;
+        padding: 0.1em 1em;
+      }
+      .add-Todo:hover {
+        background-position: right center;
+        background-size: 200% auto;
+        -webkit-animation: pulse 2s infinite;
+        animation: pulse512 1.5s infinite;
+      }
+      @keyframes pulse512 {
+        0% {
+          box-shadow: 0 0 0 0 #05bada66;
+        }
+
+        70% {
+          box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+        }
+      }
+
+      .todo {
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border-bottom: 1px solid black;
+      }
+      .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .container {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .container svg {
+        position: relative;
+
+        height: 50px;
+        width: 50px;
+        transition: all 0.3s;
+        fill: #666;
+      }
+
+      .container svg:hover {
+        transform: scale(1.1);
+      }
+
+      .container input:checked ~ svg {
+        fill: #441cf7;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <div class="add">
+        標題: <input type="text" id="" class="add-text" />
+
+        <button class="add-Todo" type="button">create</button>
+      </div>
+      <div id="editor" class="add-content"></div>
+      <div class="search-btn">
+        <button class="all" type="button" data-search="all">全部</button>
+        <button class="is-todo" type="button" data-search="isTodo">收藏</button>
+        <!-- <button class="not-todo" type="button" data-search="notTodo">未執行</button> -->
+      </div>
+      <table class="todo">
+        <thead>
+          <tr>
+            <th>收藏</th>
+            <th>標題</th>
+            <th>內文</th>
+            <th>回覆</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody class="data-show"></tbody>
+      </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0-rc.2/dist/quill.js"></script>
+    <script>
+      const quill = new Quill('#editor', {
+        placeholder: '輸入內文...',
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['code-block'],
+            [{ list: 'ordered' }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ color: [] }, { background: [] }],
+            ['link', 'image'],
+            ['clean'],
+          ],
+        },
+      });
+    </script>
+
+    <script src="./do.js"></script>
+  </body>
+</html>
