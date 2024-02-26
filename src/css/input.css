@@ -1,13 +1,12 @@
 .custom-input {
-    @apply text-xs block w-56 rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800;
-  }
-
-.btnstyle{
-    @apply cursor-pointer transition-all bg-blue-500 text-white px-2 py-0.5 rounded-lg
-    border-blue-600
-     hover:brightness-110
-    ;
+  @apply text-xs block w-56 rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800;
 }
-.execute{
-    @apply bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition
+
+.btnstyle {
+  @apply cursor-pointer transition-all bg-blue-500 text-white px-2 py-0.5 mr-1  rounded-lg
+    border-blue-600
+     hover:brightness-110;
+}
+.execute {
+  @apply bg-[#292929] border-2 border-[#3e3e3e] rounded-lg text-white px-6 py-3 text-base hover:border-[#fff] cursor-pointer transition;
 }

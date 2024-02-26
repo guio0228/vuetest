@@ -30,7 +30,8 @@
           <td>456</td>
           <td>
             <button @click="editTodo(todo.id)" class="btnstyle">回覆</button>
-            <button @click="editTodo(todo.id)" class="btnstyle">編輯</button>
+            <button @click="editTodo(todo.id)" class="btnstyle">編輯標題</button>
+            <button @click="editContent(todo.id)" class="btnstyle">編輯內文</button>
             <button @click="removeTodo(todo.id)" class="btnstyle">删除</button>
           </td>
         </tr>
@@ -39,16 +40,23 @@
   </div>
 </template>
 
-
 <script setup>
 import './css/input.css';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeMount } from 'vue';
 const displaySwitch = ref([]);
 const arr = ref([]);
+
 const addTodoTitle = ref('');
 const addTodoContent = ref('');
 onMounted(() => {
   switchData('all');
+});
+onBeforeMount(() => {
+  const storedData = localStorage.getItem('blog');
+  if (storedData) {
+    arr.value = JSON.parse(storedData);
+    console.log(arr.value);
+  }
 });
 const addTodo = () => {
   if (addTodoTitle.value && addTodoContent.value) {
@@ -62,30 +70,28 @@ const addTodo = () => {
     switchData('all');
     addTodoTitle.value = '';
     addTodoContent.value = '';
-
-    console.log(arr.value);
-    localStorage.setItem("blog", arr.value)
+    localStorage.setItem('blog', JSON.stringify(arr.value));
   }
 };
 
 const removeTodo = (id) => {
   arr.value = arr.value.filter((todo) => todo.id !== id);
+  localStorage.setItem('blog', JSON.stringify(arr.value));
+  console.log(JSON.parse(localStorage.getItem('blog')));
   switchData('all');
 };
 
 const editTodo = (id) => {
-  console.log(arr.value);
-  arr.value = arr.value.map((item) => {
-    if (item.id === id) {
-      const title = prompt('修改文字', item.title.value);
-      
-      if (title !== null) {
-        return { ...item, title: title. };
-      }
+  const itemIndex = arr.value.findIndex((item) => item.id === id);
+  if (itemIndex !== -1) {
+    const newItemTitle = prompt('修改文字', arr.value[itemIndex].title);
+    if (newItemTitle !== null && newItemTitle.trim() !== '') {
+      arr.value[itemIndex].title = newItemTitle;
+      localStorage.setItem('blog', JSON.stringify(arr.value)); // 更新localStorage
     }
-    return item;
-  });
+  }
 };
+
 const switchData = (type) => {
   switch (type) {
     case 'all':
