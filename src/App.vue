@@ -1,11 +1,10 @@
 <template>
   <div class="p-6">
     <div class="add mb-4">
-      標題:
+      do:
       <input type="text" v-model="addTodoTitle" class="add-text custom-input" />
     </div>
-    內文:
-    <input id="editor" class="add-content custom-input" v-model="addTodoContent" />
+
     <button @click="addTodo" class="add-Todo btnstyle mt-3" type="button">新增</button>
     <div class="search-btn flex space-x-2 mt-3">
       <button @click="switchData('all')" class="all execute" type="button">全部</button>
@@ -16,22 +15,19 @@
       <thead class="bg-gray-100">
         <tr>
           <th class="p-2">執行</th>
-          <th>標題</th>
-          <th>內文</th>
-          <th>回覆</th>
+          <th>do</th>
+
           <th>功能</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="todo in displaySwitch" :key="todo.id" class="border-b">
-          <td class="p-2"><input type="checkbox" v-model="todo.completed" /></td>
+          <input type="checkbox" :checked="todo.completed" @change="toggleCompletion(todo.id)" />
           <td>{{ todo.title }}</td>
-          <td>{{ todo.content }}</td>
-          <td>456</td>
+
           <td>
-            <button @click="editTodo(todo.id)" class="btnstyle">回覆</button>
-            <button @click="editTodo(todo.id)" class="btnstyle">編輯標題</button>
-            <button @click="editContent(todo.id)" class="btnstyle">編輯內文</button>
+            <button @click="editTodo(todo.id)" class="btnstyle">編輯</button>
+
             <button @click="removeTodo(todo.id)" class="btnstyle">删除</button>
           </td>
         </tr>
@@ -45,9 +41,7 @@ import './css/input.css';
 import { ref, onMounted, onBeforeMount } from 'vue';
 const displaySwitch = ref([]);
 const arr = ref([]);
-
 const addTodoTitle = ref('');
-const addTodoContent = ref('');
 onMounted(() => {
   switchData('all');
 });
@@ -59,17 +53,17 @@ onBeforeMount(() => {
   }
 });
 const addTodo = () => {
-  if (addTodoTitle.value && addTodoContent.value) {
+  if (addTodoTitle.value) {
     const addTodo = {
       id: Date.now(),
       title: addTodoTitle.value,
-      content: addTodoContent.value,
+
       completed: false,
     };
     arr.value.push(addTodo);
     switchData('all');
     addTodoTitle.value = '';
-    addTodoContent.value = '';
+
     localStorage.setItem('blog', JSON.stringify(arr.value));
   }
 };
@@ -89,6 +83,13 @@ const editTodo = (id) => {
       arr.value[itemIndex].title = newItemTitle;
       localStorage.setItem('blog', JSON.stringify(arr.value)); // 更新localStorage
     }
+  }
+};
+const toggleCompletion = (id) => {
+  const index = arr.value.findIndex((todo) => todo.id === id);
+  if (index !== -1) {
+    arr.value[index].completed = !arr.value[index].completed;
+    localStorage.setItem('blog', JSON.stringify(arr.value));
   }
 };
 
