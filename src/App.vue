@@ -43,14 +43,21 @@ const displaySwitch = ref([]);
 const arr = ref([]);
 const addTodoTitle = ref('');
 onMounted(() => {
-  switchData('all');
-});
-onBeforeMount(() => {
   const storedData = localStorage.getItem('blog');
+  console.log(storedData);
+
   if (storedData) {
     arr.value = JSON.parse(storedData);
     console.log(arr.value);
   }
+  switchData('all');
+});
+onBeforeMount(() => {
+  // const storedData = localStorage.getItem('blog');
+  // if (storedData) {
+  //   arr.value = JSON.parse(storedData);
+  //   console.log(arr.value);
+  // }
 });
 const addTodo = () => {
   if (addTodoTitle.value) {
